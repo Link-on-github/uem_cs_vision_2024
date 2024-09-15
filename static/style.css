@@ -1,0 +1,33 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+
+.content {
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.chat-popup {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 300px;
+    height: 400px;
+    background-color: white;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.chat-content {
+    display: flex;
+    flex-direction: column;
+}
