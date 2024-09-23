@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial - CropDoc</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+        }
+ 
+        nav {
+            background-color: green;
+            padding: 15px 20px;
+        }
+ 
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+ 
+        .logo {
+            color: white;
+            font-size: 24px;
+        }
+ 
+        .nav-item {
+            color: white;
+            font-size: 20px;
+        }
+ 
+        .title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+ 
+        .step-container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            flex-direction: column;
+            margin: 20px;
+            padding-left: 50px; /* Shift steps to the right */
+        }
+ 
+        .step {
+            background-color: rgba(144, 238, 144, 0.5);
+            padding: 15px;
+            border-radius: 5px;
+            width: 300px;
+            margin: 10px 0;
+            text-align: left;
+            position: relative;
+        }
+ 
+        .step:before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background-color: green;
+            position: absolute;
+            left: -20px; /* Positioning the square box */
+            top: 15px; /* Center it vertically */
+            border-radius: 2px; /* Square corners */
+        }
+ 
+        .proceed-container {
+            display: flex;
+            justify-content: flex-end;
+            margin: 20px;
+        }
+ 
+        button {
+            padding: 10px 20px;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+ 
+        button:hover {
+            background-color: darkgreen;
+        }
+ 
+        .translation {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
+        }
+ 
+        .translation button {
+            margin: 0 10px;
+        }
+ 
+        .back-button {
+            background-color: darkorange;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 10px 20px;
+            margin: 20px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+ 
+        .back-button:hover {
+            background-color: orangered;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="navbar">
+            <div class="logo">CropDoc</div>
+            <div class="nav-item">Tutorial</div>
+        </div>
+    </nav>
+    <div class="title">Tutorial</div>
+ 
+    <div class="translation">
+        <button id="english-button">English</button>
+        <button id="hindi-button">हिन्दी</button>
+    </div>
+ 
+    <div class="step-container" id="step-container">
+        <div class="step" id="step-0"></div>
+        <div class="step" id="step-1"></div>
+        <div class="step" id="step-2"></div>
+        <div class="step" id="step-3"></div>
+        <div class="step" id="step-4"></div>
+        <div class="step" id="step-5"></div>
+    </div>
+ 
+    <div class="proceed-container">
+        <a href="landing.html">
+            <button>Proceed</button>
+        </a>
+    </div>
+ 
+    <div class="proceed-container" style="justify-content: center;">
+        <a href="login.html">
+            <button class="back-button">Back</button>
+        </a>
+    </div>
+ 
+    <script>
+        const steps = [
+            "Step 1: Login (if already done, then sign up)",
+            "Step 2: Click on 'Get Started'. It will take you to the page for taking the picture of the crop",
+            "Step 3: Take the image or upload the image if already taken",
+            "Step 4: Wait for the model to detect the crop disease",
+            "Step 5: ChatBot opens up and gives you the cure for the diseases",
+            "Step 6: You can ask any further questions for more information"
+        ];
+ 
+        const hindiTranslations = [
+            "चरण 1: लॉगिन करें (यदि पहले ही किया गया है, तो साइन अप करें)",
+            "चरण 2: 'शुरू करें' पर क्लिक करें। यह आपको फसल की तस्वीर लेने के लिए पृष्ठ पर ले जाएगा",
+            "चरण 3: चित्र लें या पहले से लिया गया चित्र अपलोड करें",
+            "चरण 4: मॉडल का फसल रोग का पता लगाने के लिए प्रतीक्षा करें",
+            "चरण 5: चैटबॉट खुलता है और आपको रोगों के उपचार देता है",
+            "चरण 6: आप और जानकारी के लिए कोई और प्रश्न पूछ सकते हैं"
+        ];
+ 
+        function displaySteps(stepsArray) {
+            stepsArray.forEach((step, index) => {
+                document.getElementById(`step-${index}`).textContent = step;
+            });
+        }
+ 
+        function translate(lang) {
+            const stepsToDisplay = lang === 'hi' ? hindiTranslations : steps;
+            displaySteps(stepsToDisplay);
+        }
+ 
+        // Initialize the tutorial with English steps
+        displaySteps(steps);
+ 
+        // Add event listeners for the buttons
+        document.getElementById('english-button').addEventListener('click', () => translate('en'));
+        document.getElementById('hindi-button').addEventListener('click', () => translate('hi'));
+    </script>
+</body>
+</html>

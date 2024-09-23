@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Disease Detection</title>
+   
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+   
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #e8f5e9, #f4f4f9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #2c3e50;
+        }
+        nav {
+            background-color: #27ae60;
+            padding: 15px;
+            text-align: left;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        nav .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            margin-left: 20px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            max-width: 400px;
+            text-align: center;
+            margin-top: 70px;
+            position: relative;
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        h2 {
+            font-size: 20px;
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
+        form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .file-upload-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        input[type="file"] {
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            transition: border-color 0.3s;
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+        input[type="file"]:focus {
+            border-color: #27ae60;
+            outline: none;
+        }
+        button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        button:hover {
+            background-color: #388e3c;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        .loading-spinner {
+            display: none;
+            border: 4px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 4px solid #4caf50;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto 0;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        h3 {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        p {
+            font-size: 14px;
+            font-weight: 300;
+            color: #555;
+        }
+        footer {
+            background-color: #27ae60;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            width: 100%;
+            position: relative;
+        }
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        footer a:hover {
+            color: #d1e9d1;
+        }
+        .contact-title {
+            font-weight: bold;
+        }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 160px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Position the tooltip above the text */
+            left: 50%;
+            margin-left: -80px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        .camera-button {
+            background-color: #3498db;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .camera-button:hover {
+            background-color: #2980b9;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+<body>
+ 
+    <nav>
+        <span class="logo">CropDoc</span>
+    </nav>
+ 
+    <div class="card">
+        <h1>Crop Disease Detection</h1>
+        <h2>Upload an Image</h2>
+        <form method="POST" action="{{ url_for('predict') }}" enctype="multipart/form-data" onsubmit="showLoading()">
+            <div class="file-upload-container">
+                <label for="imageUpload" class="tooltip">📁 Choose File
+                    <span class="tooltiptext">Upload a clear image of the crop.</span>
+                </label>
+                <input type="file" name="image" accept="image/*" required id="imageUpload">
+                <button type="button" class="camera-button" onclick="openCamera()">📷</button>
+            </div>
+            <button type="submit">🔍 Predict</button>
+            <div class="loading-spinner" id="loadingSpinner"></div>
+        </form>
+ 
+        {% if predicted_disease %}
+            <h3>Predicted Disease: {{ predicted_disease }}</h3>
+            <p>Severity: {{ severity_score }}%</p>
+            <p>Recommendations: {{ recommendations }}</p>
+        {% endif %}
+ 
+        {% if message %}
+            <h3>{{ message }}</h3>
+        {% endif %}
+    </div>
+ 
+    <script>
+        function showLoading() {
+            document.getElementById('loadingSpinner').style.display = 'block';
+        }
+ 
+        function openCamera() {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    const video = document.createElement('video');
+                    video.srcObject = stream;
+                    video.autoplay = true;
+                   
+                    const overlay = document.createElement('div');
+                    overlay.style.position = 'fixed';
+                    overlay.style.top = '0';
+                    overlay.style.left = '0';
+                    overlay.style.width = '100%';
+                    overlay.style.height = '100%';
+                    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+                    overlay.style.display = 'flex';
+                    overlay.style.justifyContent = 'center';
+                    overlay.style.alignItems = 'center';
+                    overlay.style.flexDirection = 'column';
+ 
+                    const captureButton = document.createElement('button');
+                    captureButton.innerText = 'Capture';
+                    captureButton.className = 'camera-button';
+                    captureButton.style.position = 'absolute';
+                    captureButton.style.bottom = '20px';
+ 
+                    overlay.appendChild(video);
+                    overlay.appendChild(captureButton);
+                    document.body.appendChild(overlay);
+ 
+                    video.play();
+ 
+                    captureButton.onclick = function() {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = video.videoWidth;
+                        canvas.height = video.videoHeight;
+                        canvas.getContext('2d').drawImage(video, 0, 0);
+                        const imgData = canvas.toDataURL('image/png');
+ 
+                        // Close the camera and overlay
+                        stream.getTracks().forEach(track => track.stop());
+                        document.body.removeChild(overlay);
+ 
+                        // Set the image data as input value
+                        const imageUpload = document.getElementById('imageUpload');
+                        const file = dataURLToFile(imgData, 'camera-photo.png');
+                        const dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(file);
+                        imageUpload.files = dataTransfer.files;
+                    };
+                })
+                .catch(function(error) {
+                    console.error("Error accessing camera: ", error);
+                });
+        }
+ 
+        function dataURLToFile(dataURL, filename) {
+            const arr = dataURL.split(','),
+                mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]),
+                n = bstr.length,
+                u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new File([u8arr], filename, { type: mime });
+        }
+    </script>
+ 
+    <footer>
+        <p class="contact-title">Contact Us:
+            <a href="mailto:anubratamondal562412@gmail.com">Email</a> |
+            <a href="tel:7439542293">Phone</a>
+        </p>
+    </footer>
+ 
+</body>
+</html>
+ 
+ 

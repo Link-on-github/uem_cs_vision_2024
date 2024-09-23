@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - CropDoc</title>
+    <style>
+        body {
+            background-image: url('path/to/your/background-image.jpg'); /* Update this path */
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+ 
+        nav {
+            background-color: green;
+            padding: 15px 20px;
+        }
+ 
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+ 
+        .logo {
+            color: white;
+            font-size: 24px;
+        }
+ 
+        .nav-item {
+            color: white;
+            font-size: 20px;
+        }
+ 
+        .signup-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 60px); /* Adjust for navbar height */
+        }
+ 
+        .signup-form {
+            background-color: rgba(249, 249, 249, 0.9); /* Slight transparency for better visibility */
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+ 
+        .signup-form h2 {
+            text-align: center;
+        }
+ 
+        .signup-form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+ 
+        .signup-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+ 
+        .terms {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+ 
+        .terms input {
+            margin-right: 5px;
+        }
+ 
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+ 
+        button:hover {
+            background-color: darkgreen;
+        }
+ 
+        .forgot-password {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: green;
+            text-decoration: none;
+        }
+ 
+        .terms-button {
+            display: block;
+            text-align: center;
+            margin: 10px 0;
+            color: green;
+            text-decoration: none;
+            cursor: pointer;
+        }
+ 
+        /* Home Button */
+        .home-button {
+            background-color: white;
+            color: green;
+            border: 1px solid green;
+            padding: 10px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+ 
+        .home-button:hover {
+            background-color: lightgreen;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="navbar">
+            <div class="logo">CropDoc</div>
+            <a href="landing.html" class="home-button">Home</a>
+            <div class="nav-item">Sign Up</div>
+        </div>
+    </nav>
+    <div class="signup-container">
+        <form class="signup-form">
+            <h2>Sign Up</h2>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+ 
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email" required>
+ 
+            <label for="password">Password (min 6 characters):</label>
+            <input type="password" id="password" name="password" required minlength="6">
+ 
+            <label for="confirm-password">Confirm Password:</label>
+            <input type="password" id="confirm-password" name="confirm-password" required>
+ 
+            <div class="terms">
+                <input type="checkbox" id="terms" name="terms" required disabled>
+                <label for="terms">I agree to the Terms and Conditions</label>
+            </div>
+ 
+            <a class="terms-button" href="terms.html" target="_blank">View Terms and Conditions</a>
+ 
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
+ 
+    <script>
+        // Enable the checkbox after visiting the terms page
+        document.querySelector('.terms-button').onclick = function() {
+            document.getElementById('terms').disabled = false;
+        };
+    </script>
+</body>
+</html>

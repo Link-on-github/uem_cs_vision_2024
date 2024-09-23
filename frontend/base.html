@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CropDoc</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #e0f2f1, #f1f8e9);
+      overflow-x: hidden;
+    }
+ 
+    /* Navbar Styles */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background-color: #2b8a3e;
+      color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+ 
+    .navbar-brand {
+      font-size: 1.8em;
+      font-weight: bold;
+    }
+ 
+    .navbar-menu {
+      display: flex;
+      align-items: center;
+    }
+ 
+    .nav-link {
+      margin: 0 15px;
+      text-decoration: none;
+      color: white;
+      font-size: 1em;
+      transition: color 0.3s;
+      font-weight: 500;
+    }
+ 
+    .nav-link:hover {
+      color: #e0f2f1;
+    }
+ 
+    .search-container {
+      position: relative;
+    }
+ 
+    #searchBar {
+      padding: 8px 15px;
+      border-radius: 20px;
+      border: none;
+      outline: none;
+      width: 200px;
+      font-size: 1em;
+      transition: box-shadow 0.3s;
+    }
+ 
+    #searchBar:focus {
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    }
+ 
+    .auth-links {
+      margin-left: 20px;
+    }
+ 
+    .auth-link {
+      text-decoration: none;
+      color: white;
+      font-size: 1em;
+      margin-left: 10px;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+ 
+    .auth-link:hover {
+      color: #e0f2f1;
+    }
+ 
+    /* Full-Screen Hero Section */
+    .hero {
+      position: relative;
+      height: 100vh;
+      background: url('https://source.unsplash.com/1600x900/?crops') no-repeat center center/cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      overflow: hidden;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+ 
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 1;
+    }
+ 
+    .content {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+      padding: 20px;
+      background: white; /* White background for content */
+      border-radius: 10px; /* Rounded corners */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+ 
+    .title {
+      font-size: 3em;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 3px;
+      margin-bottom: 20px;
+      color: #2b8a3e;
+    }
+ 
+    .description {
+      font-size: 1.3em;
+      margin-bottom: 40px;
+      line-height: 1.6;
+      color: #555;
+    }
+ 
+    .cta-button {
+      background: linear-gradient(45deg, #66bb6a, #43a047);
+      padding: 15px 35px;
+      border-radius: 50px;
+      font-size: 1.2em;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      font-weight: 600;
+    }
+ 
+    .cta-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    }
+ 
+    /* Chart Container */
+    .chart-container {
+      max-width: 600px;
+      margin: 30px auto;
+      text-align: center;
+    }
+ 
+    .chart-container h3 {
+      color: #2b8a3e;
+      font-size: 1.5em;
+      margin-bottom: 20px;
+    }
+ 
+    /* Footer Styles */
+    .footer {
+      background-color: #2b8a3e;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      padding: 20px;
+      box-sizing: border-box;
+      align-items: center;
+      font-size: 0.9em;
+      box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+    }
+ 
+    .footer-left, .footer-right {
+      flex: 1;
+      padding: 0 20px;
+    }
+ 
+    .footer-center {
+      text-align: center;
+      flex: 2;
+      font-weight: bold;
+    }
+ 
+    .footer p {
+      margin: 0;
+      line-height: 1.4;
+      background-color: #1b5e20;
+      padding: 15px;
+      border-radius: 5px;
+      font-size: 0.9em;
+    }
+ 
+    .footer-right p {
+      text-align: right;
+    }
+ 
+    /* Responsive Design */
+    @media (max-width: 770px) {
+      .title {
+        font-size: 2em;
+      }
+ 
+      .description {
+        font-size: 1.1em;
+      }
+ 
+      .cta-button {
+        padding: 12px 25px;
+        font-size: 1em;
+      }
+ 
+      .footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+ 
+      .footer p, .footer .footer-center, .footer .footer-right {
+        margin-bottom: 10px;
+      }
+    }
+ 
+    /* Language Selector Styles */
+    .language-selector {
+      margin-top: 20px;
+    }
+ 
+    .language-selector button {
+      padding: 10px 20px;
+      margin: 5px;
+      background-color: #2b8a3e;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.3s ease;
+    }
+ 
+    .language-selector button:hover {
+      background-color: #23702e;
+    }
+  </style>
+</head>
+<body>
+ 
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="navbar-brand">CropDoc</div>
+  <div class="navbar-menu">
+    <a href="#" class="nav-link" data-i18n="home">Home</a>
+    <a href="#" class="nav-link" data-i18n="about">About Us</a>
+    <div class="search-container">
+      <input type="text" placeholder="Search..." id="searchBar">
+    </div>
+    <div class="auth-links">
+      <a href="#" class="auth-link" data-i18n="login">Login</a> /
+      <a href="#" class="auth-link" data-i18n="signup">Signup</a>
+    </div>
+  </div>
+</nav>
+ 
+<!-- Hero Section -->
+<div class="hero">
+  <div class="overlay"></div>
+  <div class="content">
+    <h1 class="title">Welcome to Crop Disease Detection</h1>
+    <p class="description">Detect diseases in your crops easily using our cutting-edge machine learning tool.</p>
+    <button class="cta-button" onclick="window.location.href='crop.disease.detection.html'">Get Started</button>
+   
+    <!-- Language Selector for Multilingual Support -->
+    <div class="language-selector">
+      <button id="en" onclick="changeLanguage('en')">English</button>
+      <button id="hi" onclick="changeLanguage('hi')">हिन्दी</button>
+    </div>
+ 
+    <!-- Data Visualization for Crop Health Trends -->
+    <div class="chart-container">
+      <h3>Crop Health Over Time</h3>
+      <canvas id="healthChart"></canvas>
+    </div>
+  </div>
+</div>
+ 
+<!-- Footer Section -->
+<div class="footer">
+  <div class="footer-left">
+    <p>CropDoc empowers farmers by providing accurate crop disease detection using advanced technology. Harness the power of smart technology with real-time analysis and expert guidance, helping you make informed decisions to protect your harvest.</p>
+  </div>
+  <div class="footer-center">
+    <p>Contact Us</p>
+  </div>
+  <div class="footer-right">
+    <p>Phone: 7439542293</p>
+    <p>Email: anubratamondal2004@gmail.com</p>
+  </div>
+</div>
+ 
+<!-- Language Support Script -->
+<script src="https://unpkg.com/i18next@21.0.1/dist/umd/i18next.min.js"></script>
+<script>
+  const resources = {
+    en: {
+      translation: {
+        "welcome": "Welcome to Crop Disease Detection",
+        "description": "This tool helps you detect diseases in crops using machine learning.",
+        "home": "Home",
+        "about": "About Us",
+        "search": "Search...",
+        "login": "Login",
+        "signup": "Signup"
+      }
+    },
+    hi: {
+      translation: {
+        "welcome": "फसल रोग पहचान में आपका स्वागत है",
+        "description": "यह उपकरण मशीन लर्निंग का उपयोग करके आपकी फसलों में बीमारियों का पता लगाने में मदद करता है।",
+        "home": "मुखपृष्ठ",
+        "about": "हमारे बारे में",
+        "search": "खोजें...",
+        "login": "लॉगिन",
+        "signup": "साइनअप"
+      }
+    }
+  };
+ 
+  i18next.init({ lng: 'en', resources }, function(err, t) {
+    document.querySelector('.title').innerHTML = t('welcome');
+    document.querySelector('.description').innerHTML = t('description');
+    document.querySelectorAll('.nav-link').forEach(el => {
+      el.innerHTML = t(el.getAttribute('data-i18n'));
+    });
+    document.querySelectorAll('.auth-link').forEach(el => {
+      el.innerHTML = t(el.getAttribute('data-i18n'));
+    });
+    document.querySelector('#searchBar').setAttribute('placeholder', t('search'));
+  });
+ 
+  function changeLanguage(lang) {
+    i18next.changeLanguage(lang, function(err, t) {
+      document.querySelector('.title').innerHTML = t('welcome');
+      document.querySelector('.description').innerHTML = t('description');
+      document.querySelectorAll('.nav-link').forEach(el => {
+        el.innerHTML = t(el.getAttribute('data-i18n'));
+      });
+      document.querySelectorAll('.auth-link').forEach(el => {
+        el.innerHTML = t(el.getAttribute('data-i18n'));
+      });
+      document.querySelector('#searchBar').setAttribute('placeholder', t('search'));
+    });
+  }
+</script>
+ 
+<!-- Chart.js for Data Visualization -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('healthChart').getContext('2d');
+ 
+  const healthChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+      datasets: [{
+        label: 'Crop Health Score',
+        data: [65, 59, 80, 81, 56, 65, 70, 74, 69, 80, 75, 65],
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 2
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+ 
+</body>
+</html>
